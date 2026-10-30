@@ -1,13 +1,13 @@
-package org.sid.accountservice;
+package org.sid.transactionservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AccountServiceApplication {
+public class TransactionServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AccountServiceApplication.class, args);
+        SpringApplication.run(TransactionServiceApplication.class, args);
     }
 
 }
