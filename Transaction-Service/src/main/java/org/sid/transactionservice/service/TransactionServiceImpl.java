@@ -5,6 +5,7 @@ import org.sid.transactionservice.domain.TransactionType;
 import org.sid.transactionservice.feign.AccountRestClient;
 import org.sid.transactionservice.model.Account;
 import org.sid.transactionservice.repository.TransactionRepository;
+import org.sid.transactionservice.service.exception.AccountServiceUnavailableException;
 import org.sid.transactionservice.service.exception.BusinessRuleException;
 import org.sid.transactionservice.service.exception.TransactionNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
@@ -104,6 +105,9 @@ public class TransactionServiceImpl implements TransactionService {
     private void checkAccount(Account account, String currency, BigDecimal amountToDebit) {
         if (account == null || account.getId() == null) {
             throw new BusinessRuleException("Le compte n'existe pas");
+        }
+        if ("UNAVAILABLE".equals(account.getStatus())) {
+            throw new AccountServiceUnavailableException("account-service indisponible, réessayez plus tard");
         }
         if (!"ACTIVE".equals(account.getStatus())) {
             throw new BusinessRuleException("Le compte " + account.getId() + " n'est pas actif");

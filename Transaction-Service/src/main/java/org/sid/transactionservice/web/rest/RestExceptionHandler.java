@@ -1,6 +1,7 @@
 package org.sid.transactionservice.web.rest;
 
 import feign.FeignException;
+import org.sid.transactionservice.service.exception.AccountServiceUnavailableException;
 import org.sid.transactionservice.service.exception.BusinessRuleException;
 import org.sid.transactionservice.service.exception.TransactionNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -28,5 +29,9 @@ public class RestExceptionHandler {
         int status = e.status() > 0 ? e.status() : 503;
         String detail = status == 404 ? "Le compte n'existe pas" : "Erreur account-service : " + e.getMessage();
         return ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(status), detail);
+    }
+    @ExceptionHandler(AccountServiceUnavailableException.class)
+    public ProblemDetail handleUnavailable(AccountServiceUnavailableException e) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage());
     }
 }
