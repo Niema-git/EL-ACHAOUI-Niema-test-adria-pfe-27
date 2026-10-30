@@ -1,4 +1,4 @@
-package org.sid.transactionservice.domain;
+package org.sid.accountservice.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
